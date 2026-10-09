@@ -29,7 +29,7 @@ Dieses erste Profil wird in der Console angelegt. Die App kann sich selbst keine
 
 ## 4. Mitarbeiter
 
-Für jeden Mitarbeiter zuerst unter Authentication → Nutzer einen Zugang erstellen. Anschließend in Zeitwerk → Verwaltung → Einstellungen → Mitarbeiter hinzufügen die zugehörige UID, Namen und Sollstunden eintragen. Neue Profile erhalten ausschließlich die Rolle `employee`. Mitarbeiter sehen nur eigene Daten und können bestehende Arbeitszeitnachweise nicht direkt überschreiben.
+Mitarbeiter werden in der Verwaltung mit Name, E-Mail und Sollstunden eingeladen. Einrichtung siehe „Mitarbeiter per E-Mail einladen“ unten.
 
 ## 5. Prüfen
 
@@ -41,6 +41,25 @@ Die bisherigen lokalen Daten bleiben unter `zeitwerk-demo-v1` erhalten. Sie werd
 
 ## Aktuelle Grenzen
 
-Speichern benötigt Internet. Keine automatische Hintergrundsynchronisation; „Daten aktualisieren“ oder Neuladen lädt den zentralen Stand. Eine gleichzeitige Änderung derselben Daten wird abgewiesen. Direkter E-Mail-Versand fehlt weiterhin. Timer-Buchungen sind sofort wirksam, manuelle Einträge benötigen Freigabe. Die Regeln sichern Zugriff und Freigaberechte ab, gewährleisten aber keine manipulationssichere Stempeluhr. Geänderte Sollstunden wirken weiterhin rückwirkend auf die Anzeige von Überstunden.
+Speichern benötigt Internet. Keine automatische Hintergrundsynchronisation; „Daten aktualisieren“ oder Neuladen lädt den zentralen Stand. Eine gleichzeitige Änderung derselben Daten wird abgewiesen. Direkter Exportversand per E-Mail fehlt weiterhin. Timer-Buchungen sind sofort wirksam, manuelle Einträge benötigen Freigabe. Die Regeln sichern Zugriff und Freigaberechte ab, gewährleisten aber keine manipulationssichere Stempeluhr. Geänderte Sollstunden wirken weiterhin rückwirkend auf die Anzeige von Überstunden.
 
 Vor Verwendung echter Personaldaten mit zwei Konten Zugriffsschutz und Freigabeablauf prüfen. Die Regeln müssen erst im Firebase-Projekt veröffentlicht werden; ein GitHub-Push veröffentlicht sie nicht.
+
+
+## Mitarbeiter per E-Mail einladen
+
+Die Verwaltung trägt in der App Name, E-Mail und Sollstunden ein. Die Callable Function `inviteEmployee` prüft die Verwalterrolle serverseitig, erzeugt einen Authentication-Nutzer mit einem unbekannten Zufallspasswort und speichert das Mitarbeiterprofil unter dessen UID. Die App fordert anschließend die Firebase-E-Mail zum Zurücksetzen/Festlegen des Passworts an. Der Mitarbeiter legt über den Link sein eigenes Passwort fest und meldet sich in Zeitwerk an. Es gibt keine öffentliche Verwalterregistrierung.
+
+Einmalig auf dem Rechner mit Node.js im Repository ausführen:
+
+```sh
+npm --prefix functions install
+npx firebase-tools login
+npx firebase-tools deploy --only functions,firestore:rules --project arbeitszeiterfassung-8ca47
+```
+
+Die Bereitstellung benötigt Zugriff auf das Firebase-Projekt und den Blaze-Tarif. Die Function liegt in europe-west3. Zugangsdaten gehören nicht in das Repository. In Firebase Authentication muss E-Mail/Passwort aktiviert sein. Die E-Mail-Vorlage „Passwort zurücksetzen“ kann für den Einladungsablauf angepasst werden; sie wird auch für „Passwort vergessen“ verwendet.
+
+Schlägt der Versand nach erfolgreicher Anlage fehl, bleibt der Mitarbeiter bestehen. In „Mitarbeiter bearbeiten“ den Mitarbeiter auswählen und „Einladung erneut senden“ verwenden. Alternativ kann er auf der Anmeldeseite „Passwort vergessen“ nutzen. Bereits vorhandene Authentication-E-Mail-Adressen werden nicht automatisch übernommen. Eine erneute Einladung an bereits aktive Mitarbeiter ist ein Passwort-Reset. Firebase-Versandlimits gelten; die App bestätigt die Anforderung, nicht die Zustellung.
+
+Prüfung nach Deployment: als Verwalter einen Testmitarbeiter einladen, E-Mail-Link öffnen, Passwort festlegen, in einem anderen Browser anmelden, eigenen Antrag einreichen und als Verwalter genehmigen. Ein Mitarbeiter darf die Callable Function nicht aufrufen können.

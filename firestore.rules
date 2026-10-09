@@ -11,17 +11,20 @@ service cloud.firestore {
    allow update: if admin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','daily']) && request.resource.data.name is string && request.resource.data.daily is number && request.resource.data.daily >= 30 && request.resource.data.daily <= 1440;
   }
   match /records/{id} {
-   allow read: if admin() || own(resource.data);
+   allow get: if admin() || (member() && (!exists(/databases/$(database)/documents/records/$(id)) || own(resource.data)));
+   allow list: if admin() || own(resource.data);
    allow create: if validEntry(request.resource.data) && (admin() || (own(request.resource.data) && id == request.auth.uid + '_' + request.resource.data.date && request.resource.data.source == 'timer' && request.resource.data.type == 'Arbeit' && request.resource.data.keys().hasOnly(['id','person','date','type','start','end','pause','minutes','created','source'])));
    allow update: if admin() && validEntry(request.resource.data) && request.resource.data.person == resource.data.person;
   }
   match /requests/{id} {
-   allow read: if admin() || own(resource.data);
+   allow get: if admin() || (member() && (!exists(/databases/$(database)/documents/requests/$(id)) || own(resource.data)));
+   allow list: if admin() || own(resource.data);
    allow create: if member() && (admin() || own(request.resource.data)) && validEntry(request.resource.data) && request.resource.data.status == 'pending' && !request.resource.data.keys().hasAny(['decided','decidedBy']);
    allow update: if admin() && resource.data.status == 'pending' && request.resource.data.status in ['approved','rejected'] && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','decided','decidedBy']);
   }
   match /timers/{uid} {
-   allow read: if admin() || (member() && resource.data.person == request.auth.uid);
+   allow get: if admin() || (member() && request.auth.uid == uid);
+   allow list: if admin() || (member() && resource.data.person == request.auth.uid);
    allow create, update: if member() && (admin() || request.auth.uid == uid) && request.resource.data.person == uid && request.resource.data.keys().hasOnly(['person','start','pauseMs','pauseStart']) && request.resource.data.start is number && request.resource.data.pauseMs is number && request.resource.data.pauseMs >= 0;
    allow delete: if admin() || (member() && request.auth.uid == uid);
   }
