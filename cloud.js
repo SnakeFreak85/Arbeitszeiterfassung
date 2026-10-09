@@ -1,3 +1,4 @@
+import{getLanguage}from'./i18n.js';
 import{initializeApp}from'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
 import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut,sendPasswordResetEmail}from'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
 import{getFirestore,doc,getDoc,getDocs,collection,query,where,runTransaction}from'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
@@ -9,7 +10,7 @@ export const login=(email,password)=>signInWithEmailAndPassword(auth,email,passw
 const invite= httpsCallable(getFunctions(app,'europe-west3'),'inviteEmployee');
 export async function inviteEmployee(data){return(await invite(data)).data}
 export const logout=()=>signOut(auth);
-export const resetPassword=email=>sendPasswordResetEmail(auth,email);
+export const resetPassword=email=>{auth.languageCode=getLanguage();return sendPasswordResetEmail(auth,email)};
 export function currentUid(){return auth.currentUser?.uid}
 function canonical(v){if(Array.isArray(v))return v.map(canonical);if(v&&typeof v==='object')return Object.fromEntries(Object.keys(v).sort().map(k=>[k,canonical(v[k])]));return v}const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
 function entities(state){const m={};for(const p of state.people)m['users/'+p.id]={name:p.name,daily:p.daily,role:p.role||'employee',...(p.email?{email:p.email}:{})};for(const kind of ['records','requests'])for(const r of state[kind])m[kind+'/'+r.id]=r;for(const[id,t]of Object.entries(state.timers))m['timers/'+id]={...t,person:id};if(profile?.role==='admin')m['settings/export']={email:state.email};return m}

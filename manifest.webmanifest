@@ -1,1 +1,1 @@
-{"name":"Zeitwerk Arbeitszeiterfassung","short_name":"Zeitwerk","start_url":"./","scope":"./","display":"standalone","background_color":"#f4f6f2","theme_color":"#163d36","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]}
+{"name":"Zeitwerk","short_name":"Zeitwerk","start_url":"./","scope":"./","display":"standalone","background_color":"#f4f6f2","theme_color":"#163d36","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]}
