@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  function member(){return request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid));}
+  function admin(){return member() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';}
+  function own(data){return member() && data.person == request.auth.uid;}
+  function validEntry(d){return d.person is string && d.date is string && d.type in ['Arbeit','Urlaub','Krankheit'] && d.minutes is number && d.minutes >= 0 && d.minutes <= 1440 && d.pause is number && d.pause >= 0 && d.pause <= 1440;}
+  match /users/{uid} {
+   allow read: if member() && (admin() || request.auth.uid == uid);
+   allow create: if admin() && request.resource.data.keys().hasOnly(['name','daily','role']) && request.resource.data.role == 'employee' && request.resource.data.name is string && request.resource.data.daily is number && request.resource.data.daily >= 30 && request.resource.data.daily <= 1440;
+   allow update: if admin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','daily']) && request.resource.data.name is string && request.resource.data.daily is number && request.resource.data.daily >= 30 && request.resource.data.daily <= 1440;
+  }
+  match /records/{id} {
+   allow read: if admin() || own(resource.data);
+   allow create: if validEntry(request.resource.data) && (admin() || (own(request.resource.data) && id == request.auth.uid + '_' + request.resource.data.date && request.resource.data.source == 'timer' && request.resource.data.type == 'Arbeit' && request.resource.data.keys().hasOnly(['id','person','date','type','start','end','pause','minutes','created','source'])));
+   allow update: if admin() && validEntry(request.resource.data) && request.resource.data.person == resource.data.person;
+  }
+  match /requests/{id} {
+   allow read: if admin() || own(resource.data);
+   allow create: if member() && (admin() || own(request.resource.data)) && validEntry(request.resource.data) && request.resource.data.status == 'pending' && !request.resource.data.keys().hasAny(['decided','decidedBy']);
+   allow update: if admin() && resource.data.status == 'pending' && request.resource.data.status in ['approved','rejected'] && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','decided','decidedBy']);
+  }
+  match /timers/{uid} {
+   allow read: if admin() || (member() && resource.data.person == request.auth.uid);
+   allow create, update: if member() && (admin() || request.auth.uid == uid) && request.resource.data.person == uid && request.resource.data.keys().hasOnly(['person','start','pauseMs','pauseStart']) && request.resource.data.start is number && request.resource.data.pauseMs is number && request.resource.data.pauseMs >= 0;
+   allow delete: if admin() || (member() && request.auth.uid == uid);
+  }
+  match /settings/{id} {allow read, write: if admin();}
+ }
+}

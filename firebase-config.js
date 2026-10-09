@@ -1,0 +1,1 @@
+export const firebaseConfig={apiKey:'AIzaSyBkFH1CmwGRUyfWpqDVo8j4UD97LQAgeko',authDomain:'arbeitszeiterfassung-8ca47.firebaseapp.com',projectId:'arbeitszeiterfassung-8ca47',storageBucket:'arbeitszeiterfassung-8ca47.firebasestorage.app',messagingSenderId:'564966616845',appId:'1:564966616845:web:724e61d27cef35e0628a44'};
