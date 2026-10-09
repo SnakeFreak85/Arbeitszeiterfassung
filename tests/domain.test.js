@@ -1,0 +1,3 @@
+import{test}from'node:test';import assert from'node:assert/strict';import{minutes,holiday,escape}from'../domain.js';
+test('Arbeitszeit inklusive Pause und Nachtschicht',()=>{assert.equal(minutes('08:00','16:30',30),480);assert.equal(minutes('22:00','06:00',30),450);assert.throws(()=>minutes('08:00','08:00',0));assert.throws(()=>minutes('08:00','09:00',60));assert.throws(()=>minutes('25:00','09:00',0))});
+test('Bundesweite feste und bewegliche Feiertage',()=>{assert.equal(holiday('2026-10-03'),'Tag der Deutschen Einheit');assert.equal(holiday('2026-04-03'),'Karfreitag');assert.equal(holiday('2026-04-06'),'Ostermontag');assert.equal(holiday('2026-10-09'),'')});test('Namen werden HTML-sicher ausgegeben',()=>assert.equal(escape('<script>'),'&lt;script&gt;'));
