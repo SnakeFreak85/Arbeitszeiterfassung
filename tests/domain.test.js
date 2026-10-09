@@ -1,3 +1,5 @@
-import{test}from'node:test';import assert from'node:assert/strict';import{minutes,holiday,escape}from'../domain.js';
+import{test}from'node:test';import assert from'node:assert/strict';import{minutes,holiday,escape,overtime}from'../domain.js';
 test('Arbeitszeit inklusive Pause und Nachtschicht',()=>{assert.equal(minutes('08:00','16:30',30),480);assert.equal(minutes('22:00','06:00',30),450);assert.throws(()=>minutes('08:00','08:00',0));assert.throws(()=>minutes('08:00','09:00',60));assert.throws(()=>minutes('25:00','09:00',0))});
 test('Bundesweite feste und bewegliche Feiertage',()=>{assert.equal(holiday('2026-10-03'),'Tag der Deutschen Einheit');assert.equal(holiday('2026-04-03'),'Karfreitag');assert.equal(holiday('2026-04-06'),'Ostermontag');assert.equal(holiday('2026-10-09'),'')});test('Namen werden HTML-sicher ausgegeben',()=>assert.equal(escape('<script>'),'&lt;script&gt;'));
+
+test("Überstunden: Mehrarbeit, Wochenende und Abwesenheiten",()=>{const r={type:"Arbeit",date:"2026-10-08",minutes:510};assert.equal(overtime(r,480),30);assert.equal(overtime({...r,minutes:300},480),0);assert.equal(overtime({...r,date:"2026-10-10"},480),510);assert.equal(overtime({...r,date:"2026-10-03"},480),510);assert.equal(overtime({...r,type:"Urlaub"},480),0);});
