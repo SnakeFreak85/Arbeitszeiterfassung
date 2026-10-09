@@ -1,4 +1,10 @@
 export const english={
+ "Anträge anzeigen":"Show requests",
+ "Offene Anträge":"Pending requests",
+ "Erledigte Anträge":"Completed requests",
+ "Antrag genehmigt.":"Request approved.",
+ "Antrag abgelehnt.":"Request rejected.",
+ "Für diesen Tag existiert ein abweichender Eintrag. Bitte den Antrag ablehnen und Änderungen über den vorhandenen Eintrag beantragen.":"A different entry already exists for this day. Please reject this request and request changes through the existing entry.",
  "Eintrag speichern":"Save entry",
  "Eintrag gespeichert.":"Entry saved.",
  "Neue Arbeits- und Krankheitseinträge werden direkt gespeichert. Urlaub und Änderungen bestehender Tage benötigen eine Freigabe. Feiertage: bundesweite Kennzeichnung.":"New work and sick leave entries are saved directly. Vacation and changes to existing days require approval. Nationwide German public holidays are highlighted.",

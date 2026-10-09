@@ -11,3 +11,12 @@ test('Approval applies to vacation and every change, not new work or sick leave'
  assert.equal(approvalRequired('Urlaub',''),true);
  for(const type of ['Arbeit','Krankheit','Urlaub'])assert.equal(approvalRequired(type,'existing-record'),true);
 });
+
+test('Approval completes identical duplicates without duplicating or overwriting days',async()=>{
+ const {approvedRecords}=await import('../domain.js');const entry={id:'p_2026-10-09',person:'p',date:'2026-10-09',type:'Arbeit',start:'07:30',end:'18:00',pause:30,minutes:600};const request={...entry,id:'request',recordId:'',status:'pending'};
+ assert.deepEqual(approvedRecords([entry],request),[entry]);
+ assert.throws(()=>approvedRecords([entry],{...request,minutes:590}),/abweichender Eintrag/);
+ assert.equal(approvedRecords([],request)[0].id,entry.id);
+ const changed={...request,recordId:entry.id,old:{...entry},minutes:590};assert.equal(approvedRecords([entry],changed)[0].minutes,590);
+ assert.throws(()=>approvedRecords([{...entry,minutes:580}],changed),/inzwischen geändert/);
+});

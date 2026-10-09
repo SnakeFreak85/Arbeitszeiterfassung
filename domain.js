@@ -6,3 +6,10 @@ export function holiday(date){const y=Number(date.slice(0,4));const fixed={'01-0
 export function overtime(record,daily){if(record.type!=='Arbeit')return 0;const day=new Date(record.date+'T12:00:00').getDay();const target=day===0||day===6||holiday(record.date)?0:daily;return Math.max(0,record.minutes-target)}
 
 export const approvalRequired=(type,existingId)=>type==='Urlaub'||Boolean(existingId);
+
+export function approvedRecords(records,request){
+ const same=(a,b)=>JSON.stringify(Object.entries(a||{}).sort(([a],[b])=>a.localeCompare(b)))===JSON.stringify(Object.entries(b||{}).sort(([a],[b])=>a.localeCompare(b)));
+ if(request.recordId){const current=records.find(r=>r.id===request.recordId);if(!current||!same(current,request.old))throw Error('Der ursprüngliche Eintrag wurde inzwischen geändert. Antrag bitte ablehnen und neu stellen.');}
+ else{const existing=records.filter(r=>r.person===request.person&&r.date===request.date);if(existing.length){const fields=['person','date','type','start','end','pause','minutes'];if(existing.length===1&&fields.every(key=>existing[0][key]===request[key])&&(existing[0].fraction||1)===(request.fraction||1))return records;throw Error('Für diesen Tag existiert ein abweichender Eintrag. Bitte den Antrag ablehnen und Änderungen über den vorhandenen Eintrag beantragen.');}}
+ const entry={...request,id:request.recordId||request.person+'_'+request.date};delete entry.old;return [...records.filter(r=>r.id!==request.recordId),entry];
+}
