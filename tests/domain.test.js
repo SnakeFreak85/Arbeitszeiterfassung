@@ -3,3 +3,11 @@ test('Arbeitszeit inklusive Pause und Nachtschicht',()=>{assert.equal(minutes('0
 test('Bundesweite feste und bewegliche Feiertage',()=>{assert.equal(holiday('2026-10-03'),'Tag der Deutschen Einheit');assert.equal(holiday('2026-04-03'),'Karfreitag');assert.equal(holiday('2026-04-06'),'Ostermontag');assert.equal(holiday('2026-10-09'),'')});test('Namen werden HTML-sicher ausgegeben',()=>assert.equal(escape('<script>'),'&lt;script&gt;'));
 
 test("Überstunden: Mehrarbeit, Wochenende und Abwesenheiten",()=>{const r={type:"Arbeit",date:"2026-10-08",minutes:510};assert.equal(overtime(r,480),30);assert.equal(overtime({...r,minutes:300},480),0);assert.equal(overtime({...r,date:"2026-10-10"},480),510);assert.equal(overtime({...r,date:"2026-10-03"},480),510);assert.equal(overtime({...r,type:"Urlaub"},480),0);});
+
+test('Approval applies to vacation and every change, not new work or sick leave',async()=>{
+ const {approvalRequired}=await import('../domain.js');
+ assert.equal(approvalRequired('Arbeit',''),false);
+ assert.equal(approvalRequired('Krankheit',''),false);
+ assert.equal(approvalRequired('Urlaub',''),true);
+ for(const type of ['Arbeit','Krankheit','Urlaub'])assert.equal(approvalRequired(type,'existing-record'),true);
+});

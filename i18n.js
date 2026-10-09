@@ -1,4 +1,7 @@
 export const english={
+ "Eintrag speichern":"Save entry",
+ "Eintrag gespeichert.":"Entry saved.",
+ "Neue Arbeits- und Krankheitseinträge werden direkt gespeichert. Urlaub und Änderungen bestehender Tage benötigen eine Freigabe. Feiertage: bundesweite Kennzeichnung.":"New work and sick leave entries are saved directly. Vacation and changes to existing days require approval. Nationwide German public holidays are highlighted.",
  "Arbeitszeiterfassung": "Time tracking",
  "ARBEITSZEITERFASSUNG": "TIME TRACKING",
  "Ansicht": "View",
