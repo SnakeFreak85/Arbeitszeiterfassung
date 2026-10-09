@@ -10,12 +10,12 @@ Mobile, deutschsprachige PWA für die geplante Zeiterfassung eines Betriebs mit 
 - Urlaub/Krankheit, ganzer oder halber Tag
 - Manuelle Erstbuchungen und Änderungen benötigen Verwaltungsfreigabe
 - Ursprüngliche Werte gelten bis zur Genehmigung; Änderungsanträge bleiben mit Entscheidung erhalten
-- Name und Zeitraum auf Nachweisen, Excel-kompatibler CSV-Download, PDF über Browserdruck
+- Name und Zeitraum auf Nachweisen, formatierter XLSX-Download, PDF über Browserdruck
 - Wochenenden bleiben auswählbar, bundesweite Feiertage werden markiert
 - Mitarbeiter hinzufügen, Sollstunden und Empfängeradresse hinterlegen
 - Offline-Oberfläche durch Service Worker
 
-E-Mail-Button erklärt den noch fehlenden Versanddienst. Es wird kein erfolgreicher Versand simuliert. CSV ist kein natives XLSX. Regionale Feiertage, Urlaubskonto, frei konfigurierbare Wochenpläne und ein verrechnetes Überstundenkonto sind noch nicht enthalten. Abwesenheiten werden mit dem hinterlegten Tagessoll angezeigt; Anspruchs- und Entgeltregeln werden noch nicht geprüft. In der Demo gibt es einen Eintrag pro Tag, keine mehreren Schichten.
+E-Mail-Button erklärt den noch fehlenden Versanddienst. Es wird kein erfolgreicher Versand simuliert. Der XLSX-Export enthält Spaltenbreiten, Zeitformate, Überschriften und Summen. Regionale Feiertage, Urlaubskonto, frei konfigurierbare Wochenpläne und ein verrechnetes Überstundenkonto sind noch nicht enthalten. Abwesenheiten werden mit dem hinterlegten Tagessoll angezeigt; Anspruchs- und Entgeltregeln werden noch nicht geprüft. In der Demo gibt es einen Eintrag pro Tag, keine mehreren Schichten.
 
 ## Lokal prüfen
 
