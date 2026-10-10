@@ -1,4 +1,5 @@
 export const english={
+"Zurück zur App":"Back to app",
 "Arbeitsbeginn":"Start work",
 "QR-Code scannen":"Scan QR code",
 "QR-Code erkannt":"QR code recognised",
