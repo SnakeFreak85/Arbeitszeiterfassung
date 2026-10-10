@@ -1,4 +1,15 @@
 export const english={
+"Benachrichtigungen":"Notifications",
+"Neue Freigabeanträge auf diesem Gerät melden.":"Notify this device about new approval requests.",
+"Benachrichtigungen aktivieren":"Enable notifications",
+"Benachrichtigungen deaktivieren":"Disable notifications",
+"Benachrichtigungen aktiviert.":"Notifications enabled.",
+"Benachrichtigungen deaktiviert.":"Notifications disabled.",
+"Auf dem iPhone Zeitwerk zum Home-Bildschirm hinzufügen und dort öffnen.":"On iPhone, add Zeitwerk to the Home Screen and open it there.",
+"Push-Benachrichtigungen müssen noch in Firebase eingerichtet werden.":"Push notifications still need to be configured in Firebase.",
+"Push wird auf diesem Gerät nicht unterstützt. Auf dem iPhone bitte die installierte App verwenden.":"Push is not supported on this device. On iPhone, please use the installed app.",
+"Bitte Benachrichtigungen in den Geräteeinstellungen erlauben.":"Please allow notifications in your device settings.",
+
 "Zeiterfassung gesperrt":"Time tracking disabled",
 "QR-Karte · 76 × 51 mm drucken":"Print QR card · 76 × 51 mm",
 "QR-Karte: 76 × 51 mm im Querformat. Nur QR-Code, einseitig drucken, Originalgröße / 100 % wählen.":"QR card: 76 × 51 mm landscape. QR code only, print single-sided, and select actual size / 100%.",

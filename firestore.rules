@@ -10,6 +10,10 @@ service cloud.firestore {
    allow create: if admin() && request.resource.data.keys().hasOnly(['name','daily','role']) && request.resource.data.role == 'employee' && request.resource.data.name is string && request.resource.data.daily is number && request.resource.data.daily >= 30 && request.resource.data.daily <= 1440;
    allow update: if admin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','daily']) && request.resource.data.name is string && request.resource.data.daily is number && request.resource.data.daily >= 30 && request.resource.data.daily <= 1440;
   }
+  match /users/{uid}/pushDevices/{deviceId} {
+   allow read, delete: if member() && request.auth.uid == uid;
+   allow create, update: if admin() && request.auth.uid == uid && request.resource.data.keys().hasOnly(['token','language','updated']) && request.resource.data.token is string && request.resource.data.token.size() > 0 && request.resource.data.token.size() < 4096 && request.resource.data.language in ['de','en'] && request.resource.data.updated is string;
+  }
   match /records/{id} {
    allow get: if admin() || (member() && (!exists(/databases/$(database)/documents/records/$(id)) || own(resource.data)));
    allow list: if admin() || own(resource.data);
