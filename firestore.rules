@@ -1,7 +1,7 @@
 rules_version = '2';
 service cloud.firestore {
  match /databases/{database}/documents {
-  function member(){return request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid));}
+  function member(){return request.auth != null && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('archived', false) == false;}
   function admin(){return member() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';}
   function own(data){return member() && data.person == request.auth.uid;}
   function validEntry(d){return d.person is string && d.date is string && d.type in ['Arbeit','Urlaub','Krankheit'] && d.minutes is number && d.minutes >= 0 && d.minutes <= 1440 && d.pause is number && d.pause >= 0 && d.pause <= 1440;}

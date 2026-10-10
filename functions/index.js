@@ -6,3 +6,5 @@ import {randomBytes} from 'node:crypto';
 initializeApp();
 import {createEmployee} from './invite-service.js';
 export const inviteEmployee=onCall({region:'europe-west3',maxInstances:3},request=>createEmployee(request,{db:getFirestore(),getAuth,HttpsError,randomBytes}));
+import {manageEmployee as manageEmployeeAccount} from './employee-service.js';
+export const manageEmployee=onCall({region:'europe-west3',maxInstances:3,timeoutSeconds:120},request=>manageEmployeeAccount(request,{db:getFirestore(),getAuth,HttpsError}));
