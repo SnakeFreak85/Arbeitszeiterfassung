@@ -1,4 +1,5 @@
 export const english={
+ "Zeitwerk wird geladen …":"Loading Zeitwerk …",
  "Anträge anzeigen":"Show requests",
  "Offene Anträge":"Pending requests",
  "Erledigte Anträge":"Completed requests",
