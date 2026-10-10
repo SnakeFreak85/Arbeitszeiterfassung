@@ -1,10 +1,10 @@
 # QR-Zeiterfassung
 
 Die Verwaltung öffnet unter Einstellungen den gemeinsamen Zeitwerk-QR-Code.
-Druckoptionen: ein A4-Aushang mit Anleitung oder eine Visitenkarte 85 × 55 mm
-mit Vorder- und Rückseite. Die Karte liegt auf zwei A4-Seiten an derselben
-Position. Beidseitig an der langen Kante wenden, Originalgröße / 100 % wählen
-und danach ausschneiden. Vor einem größeren Druckauftrag eine Karte prüfen.
+Druckoptionen: ein A4-Aushang mit Anleitung oder eine einseitige QR-Karte
+im Querformat mit 76 × 51 mm. Die Karte enthält ausschließlich den QR-Code.
+Die Druckseite ist ebenfalls 76 × 51 mm groß. Originalgröße / 100 % wählen
+und passendes Papierformat im Druckdialog einstellen.
 Die Druckansicht folgt der gewählten App-Sprache.
 
 Mitarbeiter öffnen „QR-Code scannen“, erlauben den Kamerazugriff und scannen
