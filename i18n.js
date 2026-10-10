@@ -1,4 +1,5 @@
 export const english={
+"Zeiterfassung gesperrt":"Time tracking disabled",
 "QR-Karte · 76 × 51 mm drucken":"Print QR card · 76 × 51 mm",
 "QR-Karte: 76 × 51 mm im Querformat. Nur QR-Code, einseitig drucken, Originalgröße / 100 % wählen.":"QR card: 76 × 51 mm landscape. QR code only, print single-sided, and select actual size / 100%.",
 "76 × 51 mm · Querformat · Einseitig · Originalgröße / 100 % wählen.":"76 × 51 mm · Landscape · Single-sided · Select actual size / 100%.",
